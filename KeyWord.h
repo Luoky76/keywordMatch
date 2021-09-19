@@ -10,7 +10,7 @@ class KeyWord
     void addKeyword(std::string word);
 
     private:
-    std::unordered_map <std::string,int> dict;
+    std::unordered_map <std::string,int> dict_;
 };
 
 #endif //KEYWORD_H_
