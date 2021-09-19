@@ -1,0 +1,7 @@
+1
+d:\Visual Studio Code\Keyword Match\build\keywordMatch.exe
+total num: 19
+swich num: 0
+case num:
+if-else num: 0
+if-else if-else num: 0
