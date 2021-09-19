@@ -63,7 +63,7 @@ int main(int mode,char* filename[])
 {
     std::ios::sync_with_stdio(false);
 
-    freopen("in.txt","r",stdin);
+    freopen("in.cpp","r",stdin);
     freopen("out.txt","w",stdout);
 
     std::cout<<mode<<std::endl;
