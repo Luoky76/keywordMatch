@@ -59,8 +59,8 @@ bool checkDiv(std::string &s,int &idx)   //用部分符号切割单词，同时�
 void calc()
 {
     KeyWord keyWord;
-    bool hasPreSwitch=false; //防止出现一个switch都没有的情况而误统计
-    int curCaseNum=0;
+    bool hasPreSwitch=false; //记录是否已经找到了某个switch，防止出现一个switch都没有的情况而误统计
+    int curCaseNum=0;   //记录某个switch下的case个数
     for (std::string it:vec)
     {
         if (keyWord.isKeyword(it)) ++totalNum;
@@ -75,16 +75,23 @@ void calc()
     }
     if (hasPreSwitch) caseNum.push_back(curCaseNum);
 }
-int main(int mode,char* filename[])
+void printAns(int mode) //根据完成等级输出答案
+{
+    if (mode>=1) std::cout<<"total num: "<<totalNum<<std::endl;
+    if (mode>=2)
+    {
+        std::cout<<"swich num: "<<switchNum<<std::endl;
+        std::cout<<"case num:";
+        for (int i:caseNum) std::cout<<" "<<i;
+        std::cout<<std::endl;
+    }
+    if (mode>=3) std::cout<<"if-else num: "<<if_else_num<<std::endl;
+    if (mode>=4) std::cout<<"if-else if-else num: "<<double_if_else_num<<std::endl;
+}
+int main(int x,char* arg[])
 {
     std::ios::sync_with_stdio(false);
-
-    freopen("in.cpp","r",stdin);
-    freopen("out.txt","w",stdout);
-
-    std::cout<<mode<<std::endl;
-    for (int i=0;i<strlen(filename[0]);++i) std::cout<<filename[0][i];
-    std::cout<<std::endl;
+    freopen(arg[1],"r",stdin);
 
     bool hasPreElse=false;  //记录上一个单词是否为else且与现单词之间均为空字符
     bool hasPreIf=false;    //记录上一个if/else单词是否是if
@@ -106,7 +113,7 @@ int main(int mode,char* filename[])
                     else
                     {
                         //出现if且前面没有紧跟着的else，说明已经进入新的if-else段中
-                        if (!hasPreIf)  //上个if-else段不以if作结尾
+                        if (!hasPreIf)  //上个if-else段以else作结尾
                         {
                             if (cnt>1) ++double_if_else_num;
                             else if (cnt==1) ++if_else_num;     
@@ -155,13 +162,6 @@ int main(int mode,char* filename[])
         }
     }
     calc();
-    std::cout<<"total num: "<<totalNum<<std::endl;
-    std::cout<<"swich num: "<<switchNum<<std::endl;
-    std::cout<<"case num:";
-    for (int i:caseNum) std::cout<<" "<<i;
-    std::cout<<std::endl;
-    std::cout<<"if-else num: "<<if_else_num<<std::endl;
-    std::cout<<"if-else if-else num: "<<double_if_else_num<<std::endl;
+    printAns(atoi(arg[2]));
     fclose(stdin);
-    fclose(stdout);
 }
