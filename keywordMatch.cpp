@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "KeyWord.cpp"
+#include "keyword.cpp"
 std::vector <std::string> vec;
 std::string s,subs;
 std::stack <int> sta;
