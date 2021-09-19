@@ -8,37 +8,53 @@ int switchNum;
 std::vector <int> caseNum;
 int if_else_num;
 int double_if_else_num;
-bool checkDiv(std::string& s,int& i)   //用部分符号切割单词
+bool ignoreString(std::string &s,int &idx)   //忽略字符串
 {
-	if (s[i]=='"')   //忽略字符串
+    if (s[idx]=='"')
 	{
-		for (i=i+1;i<s.size();i++)
+		for (idx=idx+1;idx<s.size();++idx)
 		{
-			if (s[i]=='"') return true;
+			if (s[idx]=='"') return true;
 		}
 		while (getline(std::cin,s))
 		{
-			for (i=0;i<s.size();i++)
-			{ 
-				if (s[i]=='"') return true;
-			}		
+			for (idx=0;idx<s.size();++idx)
+			{
+				if (s[idx]=='"') return true;
+			}
 		}
 	}
-	if (s[i]=='/' && i+1<s.size() && s[++i]=='*')  //忽略注释
+    return false;
+}
+bool ignoreAnnotation(std::string &s,int &idx)    //忽略注释
+{
+    if (s[idx]=='/' && idx+1<s.size() && s[++idx]=='*')
 	{
-		for (i=i+1;i<s.size();i++)
+		for (idx=idx+1;idx<s.size();++idx)
 		{
-			if (s[i]=='*' && s[++i]=='/') return true;
+			if (s[idx]=='*' && s[++idx]=='/') return true;
 		}
 		while (getline(std::cin,s))
 		{
-			for (i=0;i<s.size();i++)
+			for (idx=0;idx<s.size();++idx)
 			{ 
-				if (s[i]=='*' && i+1<s.size() && s[++i]=='/') return true;
+				if (s[idx]=='*' && idx+1<s.size() && s[++idx]=='/') return true;
 			}		
 		}
 	}
-    return s[i]==' ' || s[i]=='\n' || s[i]==';' || s[i]=='(' || s[i]==')' || s[i]=='{' || s[i]=='}' || s[i]=='<' || s[i]=='>' || s[i]==',' || s[i]==':';
+    return false;
+}
+bool checkDiv(std::string &s,int &idx)   //用部分符号切割单词，同时忽略注释和字符串
+{
+    //忽略字符串和注释
+	if (ignoreString(s,idx)) return true;
+	if (ignoreAnnotation(s,idx)) return true;
+
+    //用特殊字符切割单词
+    bool flag;
+    flag=s[idx]==' ' || s[idx]=='\n' || s[idx]==';' || s[idx]=='(' || s[idx]==')';
+    flag|=s[idx]=='{' || s[idx]=='}' || s[idx]=='<' || s[idx]=='>' || s[idx]==',' || s[idx]==':';
+    return flag;
 }
 void calc()
 {

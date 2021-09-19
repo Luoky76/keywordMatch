@@ -1,6 +1,7 @@
 #include "keyword.h"
 KeyWord::KeyWord()
 {
+    //设置关键词字典的初始关键词
     dict_.clear();
     dict_["auto"]=1; dict_["break"]=1; dict_["case"]=1; dict_["char"]=1;
     dict_["const"]=1; dict_["continue"]=1; dict_["default"]=1; dict_["do"]=1;
