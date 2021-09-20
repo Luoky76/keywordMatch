@@ -8,6 +8,12 @@ KeywordMatch::KeywordMatch(char *filename)
     int cnt=0;              //记录有几个连续的if-else if-else
     std::string subs;       //用于暂存单个单词
     std::string s;          //用于读入一整行字符串
+
+    totalNum_=0;
+    switchNum_=0;
+    if_else_num_=0;
+    double_if_else_num_=0;
+
     while (getline(std::cin,s))
     {
         for (int i=0;i<s.size();++i)
@@ -26,8 +32,8 @@ KeywordMatch::KeywordMatch(char *filename)
                         //出现if且前面没有紧跟着的else，说明已经进入新的if-else段中
                         if (!hasPreIf)  //上个if-else段以else作结尾
                         {
-                            if (cnt>1) ++double_if_else_num;
-                            else if (cnt==1) ++if_else_num;     
+                            if (cnt>1) ++double_if_else_num_;
+                            else if (cnt==1) ++if_else_num_;     
                         }
                         cnt=0;
                     }
@@ -44,7 +50,7 @@ KeywordMatch::KeywordMatch(char *filename)
 
                 if (subs.size()>0)
                 {
-                    vec.push_back(subs);
+                    allwords_.push_back(subs);
                     subs.clear();
                 }
 
@@ -61,8 +67,8 @@ KeywordMatch::KeywordMatch(char *filename)
                 {
                     if (!hasPreIf)  //遇到右括号时直接先统计当前的if-else if-else段
                     {
-                        if (cnt>1) ++double_if_else_num;
-                        else if (cnt==1) ++if_else_num;     
+                        if (cnt>1) ++double_if_else_num_;
+                        else if (cnt==1) ++if_else_num_;     
                     }
                     cnt=sta.top(); sta.pop();
                     hasPreIf=sta.top(); sta.pop();
@@ -75,6 +81,7 @@ KeywordMatch::KeywordMatch(char *filename)
     calc();
     fclose(stdin);
 }
+KeywordMatch::~KeywordMatch() {}
 bool KeywordMatch::ignoreString(std::string &s,int &idx)
 {
     if (s[idx]=='"')
@@ -130,37 +137,39 @@ void KeywordMatch::calc()
     KeyWord keyWord;
     bool hasPreSwitch=false; //记录是否已经找到了某个switch，防止出现一个switch都没有的情况而误统计
     int curCaseNum=0;   //记录某个switch下的case个数
-    for (std::string it:vec)
+    for (std::string it:allwords_)
     {
-        if (keyWord.isKeyword(it)) ++totalNum;
+        if (keyWord.isKeyword(it)) ++totalNum_;
         if (it=="case") ++curCaseNum;
         else if (it=="switch")
         {
-            ++switchNum;
-            if (hasPreSwitch) caseNum.push_back(curCaseNum);
+            ++switchNum_;
+            if (hasPreSwitch) caseNum_.push_back(curCaseNum);
             curCaseNum=0;
             hasPreSwitch=true;
         }
     }
-    if (hasPreSwitch) caseNum.push_back(curCaseNum);
+    if (hasPreSwitch) caseNum_.push_back(curCaseNum);
 }
 void KeywordMatch::printAns(int mode)
 {
-    if (mode>=1) std::cout<<"total num: "<<totalNum<<std::endl;
+    if (mode>=1) std::cout<<"total num: "<<totalNum_<<std::endl;
     if (mode>=2)
     {
-        std::cout<<"swich num: "<<switchNum<<std::endl;
+        std::cout<<"swich num: "<<switchNum_<<std::endl;
         std::cout<<"case num:";
-        for (int i:caseNum) std::cout<<" "<<i;
+        for (int i:caseNum_) std::cout<<" "<<i;
         std::cout<<std::endl;
     }
-    if (mode>=3) std::cout<<"if-else num: "<<if_else_num<<std::endl;
-    if (mode>=4) std::cout<<"if-else if-else num: "<<double_if_else_num<<std::endl;
+    if (mode>=3) std::cout<<"if-else num: "<<if_else_num_<<std::endl;
+    if (mode>=4) std::cout<<"if-else if-else num: "<<double_if_else_num_<<std::endl;
 }
 int main(int x,char* arg[])
 {
     std::ios::sync_with_stdio(false);
-    //KeywordMatch keywordMatch(arg[2]);
-    //keywordMatch.printAns(atoi(arg[3]));
+    char s[10];
+    strcpy(s,"in.cpp");
+    KeywordMatch keywordMatch(s);
+    keywordMatch.printAns(4);
     return 0;
 }
