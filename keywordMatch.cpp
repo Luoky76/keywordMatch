@@ -1,3 +1,4 @@
+#pragma GCC optimize(2)
 #include "keywordmatch.h"
 KeywordMatch::KeywordMatch(char *filename)
 {
@@ -115,8 +116,17 @@ void KeywordMatch::printAns(int mode)
 }
 int main(int x,char* arg[])
 {
+    std::cout << std::fixed << std::setprecision(9);
+    // record start time
+    auto start = std::chrono::system_clock::now();
+
     std::ios::sync_with_stdio(false);
     KeywordMatch keywordMatch(arg[1]);
     keywordMatch.printAns(atoi(arg[2]));
+
+    // record end time
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    std::cout << diff.count() << " s\n";
     return 0;
 }
