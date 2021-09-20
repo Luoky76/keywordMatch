@@ -37,7 +37,9 @@ void IfElseMatch::newWord(std::string word)
 }
 void IfElseMatch::newPunctuation(char punctuation)
 {
+    //此处不急着统计答案，等下个if或是右大括号来时再统计
     if (punctuation!=' ' && punctuation!='\n') hasPreElse=false;
+
     if (punctuation=='{')
     {
         pushAllState();
