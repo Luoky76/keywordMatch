@@ -116,9 +116,7 @@ void KeywordMatch::printAns(int mode)
 int main(int x,char* arg[])
 {
     std::ios::sync_with_stdio(false);
-    char s[10];
-    strcpy(s,"in.cpp");
-    KeywordMatch keywordMatch(s);
-    keywordMatch.printAns(4);
+    KeywordMatch keywordMatch(arg[1]);
+    keywordMatch.printAns(atoi(arg[2]));
     return 0;
 }
