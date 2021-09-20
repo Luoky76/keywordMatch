@@ -82,4 +82,5 @@ void IfElseMatch::clear()
     hasPreElse=false;
     hasPreIf=false;
     cnt=0;
+    while (!statestack_.empty()) statestack_.pop();
 }
