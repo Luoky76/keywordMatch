@@ -79,7 +79,7 @@ bool KeywordMatch::checkDiv(char c)
     bool flag;
     flag=c==' ' || c=='\n' || c==';' || c=='(' || c==')';
     flag|=c=='{' || c=='}' || c=='<' || c=='>' || c==',' || c==':';
-    flag|=c=='*' || c=='/';
+    flag|=c=='*' || c=='/' || c=='\t';
     return flag;
 }
 void KeywordMatch::calcKeyword()
