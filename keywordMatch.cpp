@@ -50,25 +50,25 @@ bool KeywordMatch::ignoreString(std::string &s,int &idx)
 }
 bool KeywordMatch::ignoreMultiAnnotation(std::string &s,int &idx)
 {
-    if (s[idx]=='/' && idx+1<s.size() && s[++idx]=='*')
+    if (s[idx]=='/' && idx+1<s.size() && s[idx+1]=='*')
 	{
-		for (idx=idx+1;idx+1<s.size();++idx)
+		for (idx=idx+2;idx+1<s.size();++idx)
 		{
-			if (s[idx]=='*' && s[++idx]=='/') return true;
+			if (s[idx]=='*' && s[idx+1]=='/') return true;
 		}
 		getline(std::cin,s);
 		for (idx=0;idx+1<s.size();++idx)
 		{ 
-			if (s[idx]=='*' && s[++idx]=='/') return true;
+			if (s[idx]=='*' && s[idx+1]=='/') return true;
 		}
 	}
     return false;
 }
 bool KeywordMatch::ignoreSingleAnnotation(std::string &s,int &idx)
 {
-    if (s[idx]=='/' && idx+1<s.size() && s[++idx]=='/')
+    if (s[idx]=='/' && idx+1<s.size() && s[idx+1]=='/')
 	{
-		idx=s.size();
+		idx=s.size()-1;
         return true;
 	}
     return false;
