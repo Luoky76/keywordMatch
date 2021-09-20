@@ -8,9 +8,10 @@ class KeyWord
     KeyWord();
     bool isKeyword(std::string word);
     void addKeyword(std::string word);
+    void deleteKeyword(std::string word);
 
     private:
-    std::unordered_map <std::string,int> dict_;
+    std::set <std::string> dict_;
 };
 
 #endif //KEYWORD_H_
